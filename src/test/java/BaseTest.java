@@ -1,12 +1,30 @@
-import org.junit.Test;
+import com.codeborne.selenide.Configuration;
+import com.codeborne.selenide.Selenide;
+import io.github.bonigarcia.wdm.WebDriverManager;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 
 import static com.codeborne.selenide.Selenide.*;
 
 
-public class BaseTest {
-    @Test
-    public void userCanLoginByUsername() {
-        open("https://demoqa.com/automation-practice-form");
-        $("//*[@id=\"firstName\"]").setValue("Andrw");
+public abstract class BaseTest {
+
+    public void setUp() {
+        WebDriverManager.chromedriver().setup();
+        Configuration.browser = "chrome";
+        Configuration.headless = true;
+        Configuration.driverManagerEnabled = true;
+        Configuration.browserSize = "1920x1080";
     }
+
+    @BeforeEach
+    public void init(){
+        setUp();
+    }
+
+    @AfterEach
+    public void tearDown(){
+        Selenide.closeWebDriver();
+    }
+
 }
